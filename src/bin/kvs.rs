@@ -1,3 +1,4 @@
+use anyhow::Result;
 use argh::FromArgs;
 
 #[derive(FromArgs, PartialEq, Debug)]
@@ -49,11 +50,12 @@ struct RemoveCommand {
   key: String,
 }
 
-fn main() {
+fn main() -> Result<()> {
   let args: Args = argh::from_env();
 
   if args.version {
-    return println!(env!("CARGO_PKG_VERSION"));
+    println!(env!("CARGO_PKG_VERSION"));
+    return Ok(());
   }
 
   return match args.command {
@@ -64,17 +66,17 @@ fn main() {
   };
 }
 
-fn get(_: GetCommand) {
+fn get(_: GetCommand) -> Result<()> {
   eprintln!("unimplemented");
   todo!();
 }
 
-fn set(_: SetCommand) {
+fn set(_: SetCommand) -> Result<()> {
   eprintln!("unimplemented");
   todo!();
 }
 
-fn rm(_: RemoveCommand) {
+fn rm(_: RemoveCommand) -> Result<()> {
   eprintln!("unimplemented");
   todo!();
 }
