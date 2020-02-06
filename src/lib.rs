@@ -1,23 +1,5 @@
-use std::collections::HashMap;
-pub struct KvStore {
-  map: HashMap<String, String>,
-}
+pub use kv::{KvStore, Result};
 
-impl KvStore {
-  pub fn new() -> Self {
-    let map = HashMap::new();
-    Self { map }
-  }
-
-  pub fn get(&self, key: String) -> Option<String> {
-    self.map.get(&key).cloned()
-  }
-
-  pub fn set(&mut self, key: String, value: String) {
-    self.map.insert(key, value);
-  }
-
-  pub fn remove(&mut self, key: String) {
-    self.map.remove(&key);
-  }
-}
+mod command;
+mod errors;
+mod kv;

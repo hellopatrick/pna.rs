@@ -62,21 +62,33 @@ fn main() -> Result<()> {
     Some(Commands::Get(arg)) => get(arg),
     Some(Commands::Set(arg)) => set(arg),
     Some(Commands::Rm(arg)) => rm(arg),
-    _ => todo!(),
+    _ => unreachable!(),
   };
 }
 
-fn get(_: GetCommand) -> Result<()> {
-  eprintln!("unimplemented");
-  todo!();
+fn get(cmd: GetCommand) -> Result<()> {
+  let current_dir = std::env::current_dir()?;
+  let mut store = kvs::KvStore::open(current_dir)?;
+  let res = store.get(cmd.key)?;
+
+  match res {
+    Some(val) => println!("{}", val),
+    None => println!("Key not found"),
+  };
+
+  Ok(())
 }
 
-fn set(_: SetCommand) -> Result<()> {
-  eprintln!("unimplemented");
-  todo!();
+fn set(cmd: SetCommand) -> Result<()> {
+  let current_dir = std::env::current_dir()?;
+  let mut store = kvs::KvStore::open(current_dir)?;
+  store.set(cmd.key, cmd.value)?;
+  Ok(())
 }
 
-fn rm(_: RemoveCommand) -> Result<()> {
-  eprintln!("unimplemented");
-  todo!();
+fn rm(cmd: RemoveCommand) -> Result<()> {
+  let current_dir = std::env::current_dir()?;
+  let mut store = kvs::KvStore::open(current_dir)?;
+  store.remove(cmd.key)?;
+  Ok(())
 }
